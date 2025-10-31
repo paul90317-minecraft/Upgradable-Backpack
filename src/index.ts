@@ -181,7 +181,7 @@ function exit() {
     const backpack_item_data = data.entity(sel('@s')).at('Item')
     get_items(backpack_item_data).set(data.block(block_pos).at('Items'))
     
-    keeper.drop(keeper.backpack_slot, item('air'))
+    execute.positioned(block_pos).run(()=>keeper.drop(keeper.backpack_slot, item('air')))
     kill(sel('@s'))
     block('air').set(block_pos, 'replace')
 }
