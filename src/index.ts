@@ -1,4 +1,81 @@
-import { block, coord, Data, data, datapack, execute, ITEM, Item, item, kill, mcfn, minecraft, nbt, NBTBase, ret, sel, Slot, summon, tag, ITEM_SLOTS, SELECTORS, TEXT } from '@paul90317/mcfn.ts'
+import { block, coord, Data, data, datapack, execute, ITEM, Item, item, kill, mcfn, minecraft, nbt, NBTBase, ret, sel, Slot, summon, tag, ITEM_SLOTS, SELECTORS, TEXT, resourcepack, ItemModel } from '@paul90317/mcfn.ts'
+
+const models = {
+    small_backpack: resourcepack.model({
+        "parent": "minecraft:item/generated",
+        "textures": {
+            "layer0": resourcepack.texture('./res/item/small_backpack.png').toString(),
+            "layer1": resourcepack.texture('./res/item/small_backpack_overlay.png').toString()
+        }
+    }),
+    medium_backpack: resourcepack.model({
+        "parent": "minecraft:item/generated",
+        "textures": {
+            "layer0": resourcepack.texture('./res/item/medium_backpack.png').toString(),
+            "layer1": resourcepack.texture('./res/item/medium_backpack_overlay.png').toString()
+        }
+    }),
+    large_backpack: resourcepack.model({
+        "parent": "minecraft:item/generated",
+        "textures": {
+            "layer0": resourcepack.texture('./res/item/large_backpack.png').toString(),
+            "layer1": resourcepack.texture('./res/item/large_backpack_overlay.png').toString()
+        }
+    }),
+    block: resourcepack.model({
+        "parent": "minecraft:item/generated",
+        "textures": {
+            "layer0": resourcepack.texture('./res/ui/block.png').toString(),
+        }
+    }),
+    close: resourcepack.model({
+        "parent": "minecraft:item/generated",
+        "textures": {
+            "layer0": resourcepack.texture('./res/ui/close.png').toString(),
+        }
+    })
+}
+
+
+
+const item_definition = {
+    small_backpack: resourcepack.item({
+        model: {
+            "type": "minecraft:model",
+            "model": models.small_backpack.toString(),
+            "tints": [
+                {
+                    "type": "minecraft:dye",
+                    "default": -6265536
+                }
+            ]
+        }
+    }),
+    medium_backpack: resourcepack.item({
+        model: {
+            "type": "minecraft:model",
+            "model": models.medium_backpack.toString(),
+            "tints": [
+                {
+                    "type": "minecraft:dye",
+                    "default": -6265536
+                }
+            ]
+        }
+    }),
+    large_backpack: resourcepack.item({
+        model: {
+            "type": "minecraft:model",
+            "model": models.large_backpack.toString(),
+            "tints": [
+                {
+                    "type": "minecraft:dye",
+                    "default": -6265536
+                }
+            ]
+        }
+    })
+}
 
 const custom_data = {
     ui: nbt.compound({
@@ -48,22 +125,25 @@ const item_modifiers = {
         data: {
             "function": "minecraft:set_count",
             "count": -1,
-            "add": true,
-            "conditions": []
+            "add": true
         }
     }),
     upgrade_to_medium: datapack.item_modifier({
         data: {
-            "function": "minecraft:set_custom_data",
-            "tag": custom_data.medium_backpack.toString(),
-            "conditions": []
+            "function": "minecraft:set_components",
+            "components": {
+                "minecraft:custom_data": custom_data.medium_backpack.toString(),
+                "minecraft:item_model": item_definition.medium_backpack.toString()
+            }
         }
     }),
     upgrade_to_large: datapack.item_modifier({
         data: {
-            "function": "minecraft:set_custom_data",
-            "tag": custom_data.large_backpack.toString(),
-            "conditions": []
+            "function": "minecraft:set_components",
+            "components": {
+                "minecraft:custom_data": custom_data.large_backpack.toString(),
+                "minecraft:item_model": item_definition.large_backpack.toString()
+            }
         }
     })
 }
@@ -211,7 +291,8 @@ datapack.recipe({
                     "hidden_components": [
                         "minecraft:unbreakable"
                     ]
-                }
+                },
+                "minecraft:item_model": item_definition.small_backpack.toString()
             },
             "count": 1,
             "id": "minecraft:leather_chestplate"
