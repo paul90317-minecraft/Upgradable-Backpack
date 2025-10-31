@@ -1,0 +1,10 @@
+{
+    "namespace": "upgradable_backpack",
+    "outdir": "C:\\Users\\paul2\\AppData\\Roaming\\.minecraft\\saves\\Datapack Test\\datapacks\\upgradable_backpack",
+    "mcmeta": {
+        "pack": {
+            "description": "Upgradable Backpack",
+            "pack_format": 88
+        }
+    }
+}
