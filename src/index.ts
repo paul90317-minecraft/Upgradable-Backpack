@@ -1,151 +1,14 @@
-import { block, coord, Data, data, datapack, execute, ITEM, Item, item, kill, mcfn, minecraft, nbt, NBTBase, ret, sel, Slot, summon, tag, ITEM_SLOTS, SELECTORS, TEXT, resourcepack, ItemModel } from '@paul90317/mcfn.ts'
-
-const models = {
-    small_backpack: resourcepack.model({
-        "parent": "minecraft:item/generated",
-        "textures": {
-            "layer0": resourcepack.texture('./res/item/small_backpack.png').toString(),
-            "layer1": resourcepack.texture('./res/item/small_backpack_overlay.png').toString()
-        }
-    }),
-    medium_backpack: resourcepack.model({
-        "parent": "minecraft:item/generated",
-        "textures": {
-            "layer0": resourcepack.texture('./res/item/medium_backpack.png').toString(),
-            "layer1": resourcepack.texture('./res/item/medium_backpack_overlay.png').toString()
-        }
-    }),
-    large_backpack: resourcepack.model({
-        "parent": "minecraft:item/generated",
-        "textures": {
-            "layer0": resourcepack.texture('./res/item/large_backpack.png').toString(),
-            "layer1": resourcepack.texture('./res/item/large_backpack_overlay.png').toString()
-        }
-    }),
-    block: resourcepack.model({
-        "parent": "minecraft:item/generated",
-        "textures": {
-            "layer0": resourcepack.texture('./res/ui/block.png').toString(),
-        }
-    }),
-    close: resourcepack.model({
-        "parent": "minecraft:item/generated",
-        "textures": {
-            "layer0": resourcepack.texture('./res/ui/close.png').toString(),
-        }
-    })
-}
-
-
-
-const item_definition = {
-    small_backpack: resourcepack.item({
-        model: {
-            "type": "minecraft:model",
-            "model": models.small_backpack.toString(),
-            "tints": [
-                {
-                    "type": "minecraft:dye",
-                    "default": -6265536
-                }
-            ]
-        }
-    }),
-    medium_backpack: resourcepack.item({
-        model: {
-            "type": "minecraft:model",
-            "model": models.medium_backpack.toString(),
-            "tints": [
-                {
-                    "type": "minecraft:dye",
-                    "default": -6265536
-                }
-            ]
-        }
-    }),
-    large_backpack: resourcepack.item({
-        model: {
-            "type": "minecraft:model",
-            "model": models.large_backpack.toString(),
-            "tints": [
-                {
-                    "type": "minecraft:dye",
-                    "default": -6265536
-                }
-            ]
-        }
-    })
-}
-
-const custom_data = {
-    ui: nbt.compound({
-        upgradable_backpack: nbt.compound({
-            type: nbt.string('ui')
-        })
-    }),
-    backpack: nbt.compound({
-        upgradable_backpack: nbt.compound({
-            type: nbt.string('backpack')
-        })
-    }),
-    small_backpack: nbt.compound({
-        upgradable_backpack: nbt.compound({
-            type: nbt.string('backpack'),
-            size: nbt.string('small')
-        })
-    }),
-    medium_backpack: nbt.compound({
-        upgradable_backpack: nbt.compound({
-            type: nbt.string('backpack'),
-            size: nbt.string('medium')
-        })
-    }),
-    large_backpack: nbt.compound({
-        upgradable_backpack: nbt.compound({
-            type: nbt.string('backpack'),
-            size: nbt.string('large')
-        })
-    }),
-    upgrader: nbt.compound({
-        upgradable_backpack: nbt.compound({
-            type: nbt.string('upgrader')
-        })
-    })
-}
+import { block, coord, Data, data, datapack, execute, ITEM, Item, item, kill, mcfn, minecraft, nbt, NBTBase, ret, sel, Slot, summon, tag, ITEM_SLOTS, SELECTORS, TEXT, resourcepack, ItemModel, item_models } from '@paul90317/mcfn.ts'
+import { assets } from './assets'
+import { custom_data } from './custom_data'
+import { item_modifiers } from './item_modifiers'
+import './recipes'
 
 function get_items(item_: Data) {
     return item_.at('components')
     .at('minecraft:custom_data')
     .at('upgradable_backpack')
     .at('Items')
-}
-
-const item_modifiers = {
-    consume_one: datapack.item_modifier({
-        data: {
-            "function": "minecraft:set_count",
-            "count": -1,
-            "add": true
-        }
-    }),
-    upgrade_to_medium: datapack.item_modifier({
-        data: {
-            "function": "minecraft:set_components",
-            "components": {
-                "minecraft:custom_data": custom_data.medium_backpack.toString(),
-                "minecraft:item_model": item_definition.medium_backpack.toString()
-            }
-        }
-    }),
-    upgrade_to_large: datapack.item_modifier({
-        data: {
-            "function": "minecraft:set_components",
-            "components": {
-                "minecraft:custom_data": custom_data.large_backpack.toString(),
-                "minecraft:item_model": item_definition.large_backpack.toString()
-            }
-        }
-    })
 }
 
 function item_slot_matches (slot: number, custom_data_: NBTBase){
@@ -188,10 +51,20 @@ function exit() {
 
 const keeper = {
     item_block: item('black_stained_glass_pane', {
-        custom_data: custom_data.ui
+        custom_data: custom_data.ui,
+        tooltip_display: nbt.compound({
+            hide_tooltip: nbt.byte(1)
+        }),
+        item_model: nbt.string(assets.item_models.block)
     }),
     button_exit: item('barrier', {
-        custom_data: custom_data.ui
+        custom_data: custom_data.ui,
+        item_name: nbt.text({
+            text: "Exit",
+            color: 'red',
+            italic: false
+        }),
+        item_model: nbt.string(assets.item_models.close)
     }),
     backpack_slot: item.slot(sel('@s'), 'container.0'),
     get_item_slot(slot: number) {
@@ -252,81 +125,6 @@ const keeper = {
 }
 
 const backpack_tag = tag()
-
-datapack.recipe({
-    data: {
-        "type": "minecraft:crafting_shaped",
-        "category": "redstone",
-        "group": "wooden_fence_gate",
-        "key": {
-            "a": "#minecraft:wool",
-            "b": "minecraft:leather",
-            "c": "minecraft:barrel"
-        },
-        "pattern": [
-            "aba",
-            "bcb",
-            "aba"
-        ],
-        "result": {
-            "components": {
-                "minecraft:custom_data": custom_data.small_backpack.toString(),
-                "minecraft:custom_name": {
-                    text: "Backpack",
-                    italic: false
-                } as TEXT,
-                "minecraft:attribute_modifiers": [
-                    {
-                    "type": "minecraft:armor",
-                    "id": "armor",
-                    "amount": 0,
-                    "operation": "add_value",
-                    "display": {
-                        "type": "hidden"
-                    }
-                    }
-                ],
-                "minecraft:tooltip_display": {
-                    "hide_tooltip": false,
-                    "hidden_components": [
-                        "minecraft:unbreakable"
-                    ]
-                },
-                "minecraft:item_model": item_definition.small_backpack.toString()
-            },
-            "count": 1,
-            "id": "minecraft:leather_chestplate"
-        }
-    }
-})
-
-datapack.recipe({
-    data: {
-        "type": "minecraft:crafting_shaped",
-        "category": "redstone",
-        "group": "wooden_fence_gate",
-        "key": {
-            "a": "#minecraft:wool",
-            "b": "minecraft:leather"
-        },
-        "pattern": [
-            "aba",
-            "b b",
-            "aba"
-        ],
-        "result": {
-            "components": {
-                "minecraft:custom_data": custom_data.upgrader.toString(),
-                "minecraft:custom_name": {
-                    text: "Backpack Upgrader",
-                    italic: false
-                } as TEXT
-            },
-            "count": 1,
-            "id": "minecraft:leather"
-        }
-    }
-})
 
 minecraft.tick(()=>{
     execute
