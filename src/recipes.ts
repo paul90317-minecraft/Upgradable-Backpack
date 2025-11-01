@@ -72,7 +72,8 @@ datapack.recipe({
                 "minecraft:custom_name": {
                     text: "Backpack Upgrader",
                     italic: false
-                } as TEXT
+                } as TEXT,
+                "minecraft:item_model": assets.item_models.upgrader
             },
             "count": 1,
             "id": "minecraft:leather"

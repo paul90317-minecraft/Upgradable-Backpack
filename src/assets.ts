@@ -4,8 +4,8 @@ const models = {
     small_backpack: resourcepack.model({
         "parent": "minecraft:item/generated",
         "textures": {
-            "layer0": resourcepack.texture.item('./res/item/small_backpack.png').toString(),
-            "layer1": resourcepack.texture.item('./res/item/small_backpack_overlay.png').toString()
+            "layer0": resourcepack.texture.item('./res/item/small_backpack.png'),
+            "layer1": resourcepack.texture.item('./res/item/small_backpack_overlay.png')
         },
         "display": {
             "fixed": {
@@ -17,8 +17,8 @@ const models = {
     medium_backpack: resourcepack.model({
         "parent": "minecraft:item/generated",
         "textures": {
-            "layer0": resourcepack.texture.item('./res/item/medium_backpack.png').toString(),
-            "layer1": resourcepack.texture.item('./res/item/medium_backpack_overlay.png').toString()
+            "layer0": resourcepack.texture.item('./res/item/medium_backpack.png'),
+            "layer1": resourcepack.texture.item('./res/item/medium_backpack_overlay.png')
         }, 
         "display": {
             "fixed": {
@@ -30,8 +30,8 @@ const models = {
     large_backpack: resourcepack.model({
         "parent": "minecraft:item/generated",
         "textures": {
-            "layer0": resourcepack.texture.item('./res/item/large_backpack.png').toString(),
-            "layer1": resourcepack.texture.item('./res/item/large_backpack_overlay.png').toString()
+            "layer0": resourcepack.texture.item('./res/item/large_backpack.png'),
+            "layer1": resourcepack.texture.item('./res/item/large_backpack_overlay.png')
         },
         "display": {
             "fixed": {
@@ -40,10 +40,16 @@ const models = {
             }
         }
     }),
+    upgrader: resourcepack.model({
+        "parent": "minecraft:item/generated",
+        "textures": {
+            "layer0": resourcepack.texture.item('./res/item/upgrader.png'),
+        }
+    }),
     block: resourcepack.model({
         "parent": "minecraft:item/generated",
         "textures": {
-            "layer0": resourcepack.texture.item('./res/ui/block.png').toString(),
+            "layer0": resourcepack.texture.item('./res/ui/block.png'),
         },
         "display": {
             "gui": {
@@ -54,7 +60,7 @@ const models = {
     close: resourcepack.model({
         "parent": "minecraft:item/generated",
         "textures": {
-            "layer0": resourcepack.texture.item('./res/ui/close.png').toString(),
+            "layer0": resourcepack.texture.item('./res/ui/close.png'),
         },
         "display": {
             "gui": {
@@ -68,7 +74,7 @@ const item_models = {
     small_backpack: resourcepack.item({
         model: {
             "type": "minecraft:model",
-            "model": models.small_backpack.toString(),
+            "model": models.small_backpack,
             "tints": [
                 {
                     "type": "minecraft:dye",
@@ -80,7 +86,7 @@ const item_models = {
     medium_backpack: resourcepack.item({
         model: {
             "type": "minecraft:model",
-            "model": models.medium_backpack.toString(),
+            "model": models.medium_backpack,
             "tints": [
                 {
                     "type": "minecraft:dye",
@@ -92,7 +98,7 @@ const item_models = {
     large_backpack: resourcepack.item({
         model: {
             "type": "minecraft:model",
-            "model": models.large_backpack.toString(),
+            "model": models.large_backpack,
             "tints": [
                 {
                     "type": "minecraft:dye",
@@ -101,16 +107,22 @@ const item_models = {
             ]
         }
     }),
+    upgrader: resourcepack.item({
+        model: {
+            type: 'minecraft:model',
+            model: models.upgrader
+        }
+    }),
     block: resourcepack.item({
         model: {
             type: 'minecraft:model',
-            model: models.block.toString()
+            model: models.block
         }
     }),
     close: resourcepack.item({
         model: {
             type: 'minecraft:model',
-            model: models.close.toString()
+            model: models.close
         }
     })
 }
