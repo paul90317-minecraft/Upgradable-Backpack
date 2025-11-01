@@ -47,7 +47,7 @@ const models = {
         }
     }),
     block: resourcepack.model({
-        "parent": "minecraft:item/generated",
+        "parent": "minecraft:item/handheld",
         "textures": {
             "layer0": resourcepack.texture.item('./res/ui/block.png'),
         },
@@ -58,7 +58,7 @@ const models = {
         }
     }),
     close: resourcepack.model({
-        "parent": "minecraft:item/generated",
+        "parent": "minecraft:item/handheld",
         "textures": {
             "layer0": resourcepack.texture.item('./res/ui/close.png'),
         },

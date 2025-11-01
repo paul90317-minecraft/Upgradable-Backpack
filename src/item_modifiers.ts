@@ -14,8 +14,8 @@ export const item_modifiers = {
         data: {
             "function": "minecraft:set_components",
             "components": {
-                "minecraft:custom_data": custom_data.medium_backpack.toString(),
-                "minecraft:item_model": assets.item_models.medium_backpack.toString()
+                "minecraft:custom_data": custom_data.medium_backpack,
+                "minecraft:item_model": assets.item_models.medium_backpack
             }
         }
     }),
@@ -23,8 +23,8 @@ export const item_modifiers = {
         data: {
             "function": "minecraft:set_components",
             "components": {
-                "minecraft:custom_data": custom_data.large_backpack.toString(),
-                "minecraft:item_model": assets.item_models.large_backpack.toString()
+                "minecraft:custom_data": custom_data.large_backpack,
+                "minecraft:item_model": assets.item_models.large_backpack
             }
         }
     })

@@ -19,7 +19,7 @@ function item_slot_matches (slot: number, custom_data_: NBTBase){
                 'minecraft:custom_data': custom_data_
             })
         })])
-    })).matches(block_pos)
+    })).matches(coord('~ ~ ~'))
 }
 
 function select_custom_data (x: SELECTORS, custom_data_: NBTBase){
@@ -38,15 +38,13 @@ function backpack_slot_matches (custom_data_: NBTBase){
     return select_custom_data('@s', custom_data_)
 }
 
-const block_pos = coord('~ ~-1 ~')
-
 function exit() {
     const backpack_item_data = data.entity(sel('@s')).at('Item')
-    get_items(backpack_item_data).set(data.block(block_pos).at('Items'))
+    get_items(backpack_item_data).set(data.block(coord('~ ~ ~')).at('Items'))
     
-    execute.positioned(block_pos).run(()=>keeper.drop(keeper.backpack_slot, item('air')))
+    keeper.drop(keeper.backpack_slot, item('air'))
     kill(sel('@s'))
-    block('air').set(block_pos, 'replace')
+    block('air').set(coord('~ ~ ~'), 'replace')
 }
 
 const keeper = {
@@ -68,7 +66,7 @@ const keeper = {
     }),
     backpack_slot: item.slot(sel('@s'), 'container.0'),
     get_item_slot(slot: number) {
-        return item.slot(block_pos, `container.${slot}` as ITEM_SLOTS)
+        return item.slot(coord('~ ~ ~'), `container.${slot}` as ITEM_SLOTS)
     },
     drop(item_slot: Slot, replace: Item) {
         const dropped_nbt = nbt.compound({
@@ -78,7 +76,7 @@ const keeper = {
             }),
             Motion: nbt.list([nbt.double(0), nbt.double(0.2), nbt.double(0)]),
             Tags: nbt.list([
-                nbt.string(backpack_tag.toString())
+                nbt.string(backpack_tag)
             ])
         })
         summon('item', coord('~ ~ ~'), dropped_nbt)
@@ -134,9 +132,8 @@ minecraft.tick(()=>{
         }))
         .at(sel('@s'))
         .run(()=>{
-            execute.unless(block('#air').matches(coord('~ ~ ~'))).run(()=>ret(exit), true)
-            execute.unless(block('barrel').matches(block_pos)).run(()=>ret(()=>{
-                execute.positioned(block_pos).run(()=>kill(sel('@e', {
+            execute.unless(block('barrel').matches(coord('~ ~ ~'))).run(()=>ret(()=>{
+                kill(sel('@e', {
                     type: 'item',
                     nbt: nbt.compound({
                         Item: nbt.compound({
@@ -147,7 +144,7 @@ minecraft.tick(()=>{
                     limit: 1,
                     sort: 'nearest',
                     distance: {upper: 1}
-                })), true)
+                }))
                 exit()
             }), true)
 
@@ -189,8 +186,6 @@ minecraft.tick(()=>{
         .at(sel('@s'))
         .if(backpack_slot_matches(custom_data.backpack))
         .if(block('#air').matches(coord('~ ~ ~')))
-        .positioned(coord('~ ~1 ~'))
-        .if(block('#air').matches(coord('~ ~ ~')))
         .run(()=>{
             summon('item_frame', coord('~ ~ ~'), nbt.compound({
                 Facing: nbt.byte(1),
@@ -198,7 +193,7 @@ minecraft.tick(()=>{
                 Invisible: nbt.byte(1),
                 Invulnerable: nbt.byte(1),
                 Tags: nbt.list([
-                    nbt.string(backpack_tag.toString())
+                    nbt.string(backpack_tag)
                 ])
             }))
             const entity = data.entity(sel('@e', {
@@ -207,15 +202,15 @@ minecraft.tick(()=>{
                 sort: 'nearest'
             })).at('Item')
             const dropped = data.entity(sel('@s')).at('Item')
-            block('barrel', {facing: 'up'}).set(block_pos, 'replace')
+            block('barrel', {facing: 'up'}).set(coord('~ ~ ~'), 'replace')
 
             entity.set(dropped)
             
             get_items(entity).remove()
             
-            data.block(block_pos).at('CustomName').set(
+            data.block(coord('~ ~ ~')).at('CustomName').set(
                 dropped.at('components').at('minecraft:custom_name'))
-            data.block(block_pos).at('Items').set(get_items(dropped))
+            data.block(coord('~ ~ ~')).at('Items').set(get_items(dropped))
             keeper.get_item_slot(26).replace.with(keeper.button_exit)
             kill(sel('@s'))
         })
