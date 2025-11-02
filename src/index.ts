@@ -185,8 +185,8 @@ minecraft.tick(()=>{
         }))
         .at(sel('@s'))
         .if(backpack_slot_matches(custom_data.backpack))
-        .if(block('#air').matches(coord('~ ~ ~')))
-        .run(()=>{
+        .run(()=>
+            execute.if(block('#air').matches(coord('~ ~ ~'))).run(()=>{
             summon('item_frame', coord('~ ~ ~'), nbt.compound({
                 Facing: nbt.byte(1),
                 Fixed: nbt.byte(1),
@@ -213,7 +213,7 @@ minecraft.tick(()=>{
             data.block(coord('~ ~ ~')).at('Items').set(get_items(dropped))
             keeper.get_item_slot(26).replace.with(keeper.button_exit)
             kill(sel('@s'))
-        })
+        }))
     
     item('*', {
         custom_data: nbt.compound({
