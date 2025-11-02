@@ -127,7 +127,7 @@ const backpack_tag = tag()
 minecraft.tick(()=>{
     execute
         .as(sel('@e', {
-            type: 'item_frame',
+            type: 'glow_item_frame',
             tags: [backpack_tag]
         }))
         .at(sel('@s'))
@@ -187,7 +187,7 @@ minecraft.tick(()=>{
         .if(backpack_slot_matches(custom_data.backpack))
         .run(()=>
             execute.if(block('#air').matches(coord('~ ~ ~'))).run(()=>{
-            summon('item_frame', coord('~ ~ ~'), nbt.compound({
+            summon('glow_item_frame', coord('~ ~ ~'), nbt.compound({
                 Facing: nbt.byte(1),
                 Fixed: nbt.byte(1),
                 Invisible: nbt.byte(1),
