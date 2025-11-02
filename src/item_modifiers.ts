@@ -12,14 +12,22 @@ export const item_modifiers = {
         "function": "minecraft:set_components",
         "components": {
             "minecraft:custom_data": custom_data.medium_backpack,
-            "minecraft:item_model": assets.item_models.medium_backpack
+            "minecraft:item_model": assets.item_models.medium_backpack,
+            "minecraft:equippable": {
+                "slot": "chest",
+                "asset_id": assets.equipments.medium_backpack
+            }
         }
     }),
     upgrade_to_large: datapack.item_modifier({
         "function": "minecraft:set_components",
         "components": {
             "minecraft:custom_data": custom_data.large_backpack,
-            "minecraft:item_model": assets.item_models.large_backpack
+            "minecraft:item_model": assets.item_models.large_backpack,
+            "minecraft:equippable": {
+                "slot": "chest",
+                "asset_id": assets.equipments.large_backpack
+            }
         }
     })
 }
