@@ -4,28 +4,22 @@ import { datapack } from '@paul90317/mcfn.ts'
 
 export const item_modifiers = {
     consume_one: datapack.item_modifier({
-        data: {
-            "function": "minecraft:set_count",
-            "count": -1,
-            "add": true
-        }
+        "function": "minecraft:set_count",
+        "count": -1,
+        "add": true
     }),
     upgrade_to_medium: datapack.item_modifier({
-        data: {
-            "function": "minecraft:set_components",
-            "components": {
-                "minecraft:custom_data": custom_data.medium_backpack,
-                "minecraft:item_model": assets.item_models.medium_backpack
-            }
+        "function": "minecraft:set_components",
+        "components": {
+            "minecraft:custom_data": custom_data.medium_backpack,
+            "minecraft:item_model": assets.item_models.medium_backpack
         }
     }),
     upgrade_to_large: datapack.item_modifier({
-        data: {
-            "function": "minecraft:set_components",
-            "components": {
-                "minecraft:custom_data": custom_data.large_backpack,
-                "minecraft:item_model": assets.item_models.large_backpack
-            }
+        "function": "minecraft:set_components",
+        "components": {
+            "minecraft:custom_data": custom_data.large_backpack,
+            "minecraft:item_model": assets.item_models.large_backpack
         }
     })
 }
