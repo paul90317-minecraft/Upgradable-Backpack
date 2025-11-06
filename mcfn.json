@@ -1,7 +1,7 @@
 {
     "namespace": "upgradable_backpack",
     "datapack": {
-        "outdir": "C:\\Users\\paul2\\AppData\\Roaming\\.minecraft\\saves\\Datapack Test\\datapacks\\upgradable_backpack",
+        "outdir": "out/datapack",
         "mcmeta": {
             "pack": {
                 "description": "Upgradable Backpack v11",
@@ -10,7 +10,7 @@
         }
     },
     "resourcepack": {
-        "outdir": "C:\\Users\\paul2\\AppData\\Roaming\\.minecraft\\resourcepacks\\upgradable_backpack",
+        "outdir": "out/resourcepack",
         "mcmeta": {
             "pack": {
                 "description": "Upgradable Backpack v11",
