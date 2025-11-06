@@ -1,4 +1,4 @@
-import { block, coord, Data, data, datapack, execute, ITEM, Item, item, kill, mcfn, minecraft, nbt, NBTBase, ret, sel, Slot, summon, tag, ITEM_SLOTS, SELECTORS, TEXT, resourcepack, ItemModel, item_models } from '@paul90317/mcfn.ts'
+import { block, vec3 , Data, data, execute, Item, item, kill, minecraft, nbt, NBTBase, ret, sel, Slot, summon, tag, ItemSlotID , SELECTORS } from 'mcfn.ts'
 import { assets } from './assets'
 import { custom_data } from './custom_data'
 import { item_modifiers } from './item_modifiers'
@@ -19,18 +19,18 @@ function item_slot_matches (slot: number, custom_data_: NBTBase){
                 'minecraft:custom_data': custom_data_
             })
         })])
-    })).matches(coord('~ ~ ~'))
+    })).matches(vec3('~ ~ ~'))
 }
 
 function select_custom_data (x: SELECTORS, custom_data_: NBTBase){
     return sel(x, {
-        nbt: nbt.compound({
+        nbts: [nbt.compound({
             Item: nbt.compound({
                 components: nbt.compound({
                     'minecraft:custom_data': custom_data_
                 })
             })
-        })
+        })]
     })
 }
 
@@ -40,51 +40,55 @@ function backpack_slot_matches (custom_data_: NBTBase){
 
 function exit() {
     const backpack_item_data = data.entity(sel('@s')).at('Item')
-    get_items(backpack_item_data).set(data.block(coord('~ ~ ~')).at('Items'))
+    get_items(backpack_item_data).set(data.block(vec3('~ ~ ~')).at('Items'))
     
     keeper.drop(keeper.backpack_slot, item('air'))
     kill(sel('@s'))
-    block('air').set(coord('~ ~ ~'), 'replace')
+    block('air').set(vec3('~ ~ ~'), 'replace')
 }
 
 const keeper = {
     item_block: item('black_stained_glass_pane', {
-        custom_data: custom_data.ui,
-        tooltip_display: nbt.compound({
-            hide_tooltip: nbt.byte(1)
-        }),
-        item_model: nbt.string(assets.item_models.block)
+        incl: {
+            custom_data: custom_data.ui,
+            tooltip_display: nbt.compound({
+                hide_tooltip: nbt.byte(1)
+            }),
+            item_model: nbt.string(assets.item_models.block)
+        }
     }),
     button_exit: item('barrier', {
-        custom_data: custom_data.ui,
-        item_name: nbt.text({
-            text: "Exit",
-            color: 'red',
-            italic: false
-        }),
-        item_model: nbt.string(assets.item_models.close)
+        incl: {
+            custom_data: custom_data.ui,
+            item_name: nbt.text({
+                text: "Exit",
+                color: 'red',
+                italic: false
+            }),
+            item_model: nbt.string(assets.item_models.close)
+        }
     }),
     backpack_slot: item.slot(sel('@s'), 'container.0'),
     get_item_slot(slot: number) {
-        return item.slot(coord('~ ~ ~'), `container.${slot}` as ITEM_SLOTS)
+        return item.slot(vec3('~ ~ ~'), `container.${slot}` as ItemSlotID)
     },
     drop(item_slot: Slot, replace: Item) {
         const dropped_nbt = nbt.compound({
             Item: nbt.compound({
                 id: nbt.string('minecraft:dirt'),
-                count: 1
+                count: nbt.int(1)
             }),
             Motion: nbt.list([nbt.double(0), nbt.double(0.2), nbt.double(0)]),
             Tags: nbt.list([
                 nbt.string(backpack_tag)
             ])
         })
-        summon('item', coord('~ ~ ~'), dropped_nbt)
+        summon('item', vec3('~ ~ ~'), dropped_nbt)
         item.slot(sel('@e', {
             type: 'item',
             sort: 'nearest',
             limit: 1,
-            nbt: dropped_nbt
+            nbts: [dropped_nbt]
         }), 'container.0').replace.from(item_slot)
         item_slot.replace.with(replace)
     },
@@ -132,15 +136,15 @@ minecraft.tick(()=>{
         }))
         .at(sel('@s'))
         .run(()=>{
-            execute.unless(block('barrel').matches(coord('~ ~ ~'))).run(()=>ret(()=>{
+            execute.unless(block('barrel').matches(vec3('~ ~ ~'))).run(()=>ret(()=>{
                 kill(sel('@e', {
                     type: 'item',
-                    nbt: nbt.compound({
+                    nbts: [nbt.compound({
                         Item: nbt.compound({
                             count: nbt.int(1),
                             id: nbt.string('minecraft:barrel')
                         })
-                    }),
+                    })],
                     limit: 1,
                     sort: 'nearest',
                     distance: {upper: 1}
@@ -178,16 +182,16 @@ minecraft.tick(()=>{
     execute
         .as(sel('@e', {
             type: 'item',
-            nbt: nbt.compound({
+            nbts: [nbt.compound({
                 OnGround: nbt.byte(1)
-            }),
+            })],
             excl_tags: [backpack_tag]
         }))
         .at(sel('@s'))
         .if(backpack_slot_matches(custom_data.backpack))
         .run(()=>
-            execute.if(block('#air').matches(coord('~ ~ ~'))).run(()=>{
-            summon('glow_item_frame', coord('~ ~ ~'), nbt.compound({
+            execute.if(block('#air').matches(vec3('~ ~ ~'))).run(()=>{
+            summon('glow_item_frame', vec3('~ ~ ~'), nbt.compound({
                 Facing: nbt.byte(1),
                 Fixed: nbt.byte(1),
                 Invisible: nbt.byte(1),
@@ -202,25 +206,27 @@ minecraft.tick(()=>{
                 sort: 'nearest'
             })).at('Item')
             const dropped = data.entity(sel('@s')).at('Item')
-            block('barrel', {facing: 'up'}).set(coord('~ ~ ~'), 'replace')
+            block('barrel', {facing: 'up'}).set(vec3('~ ~ ~'), 'replace')
 
             entity.set(dropped)
             
             get_items(entity).remove()
             
-            data.block(coord('~ ~ ~')).at('CustomName').set(
+            data.block(vec3('~ ~ ~')).at('CustomName').set(
                 dropped.at('components').at('minecraft:custom_name'))
-            data.block(coord('~ ~ ~')).at('Items').set(get_items(dropped))
+            data.block(vec3('~ ~ ~')).at('Items').set(get_items(dropped))
             keeper.get_item_slot(26).replace.with(keeper.button_exit)
             kill(sel('@s'))
         }))
     
     item('*', {
-        custom_data: nbt.compound({
-            upgradable_backpack: nbt.compound({
-                type: nbt.string('ui')
+        incl: {
+            custom_data: nbt.compound({
+                upgradable_backpack: nbt.compound({
+                    type: nbt.string('ui')
+                })
             })
-        })
+        }
     }).clear(sel('@a'))
     
     kill(select_custom_data('@e', custom_data.ui))

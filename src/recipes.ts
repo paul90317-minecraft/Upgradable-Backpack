@@ -1,4 +1,4 @@
-import { datapack, TEXT } from '@paul90317/mcfn.ts'
+import { datapack, TextObject } from 'mcfn.ts'
 import { custom_data } from './custom_data'
 import { assets } from './assets'
 
@@ -22,7 +22,7 @@ datapack.recipe({
             "minecraft:custom_name": {
                 text: "Backpack",
                 italic: false
-            } as TEXT,
+            } as TextObject,
             "minecraft:attribute_modifiers": [
                 {
                 "type": "minecraft:armor",
@@ -69,7 +69,7 @@ datapack.recipe({
             "minecraft:custom_name": {
                 text: "Backpack Upgrader",
                 italic: false
-            } as TEXT,
+            } as TextObject,
             "minecraft:item_model": assets.item_models.upgrader
         },
         "count": 1,

@@ -1,4 +1,4 @@
-import { resourcepack } from '@paul90317/mcfn.ts'
+import { resourcepack } from 'mcfn.ts'
 
 const models = {
     small_backpack: resourcepack.model({
@@ -135,10 +135,10 @@ const equipments = {
                     "dyeable": {
                         "color_when_undyed": -6265536
                     },
-                    "texture": resourcepack.texture.humanoid('./res/equipment/small_backpack.png')
+                    "texture": resourcepack.texture.equipment('humanoid', './res/equipment/small_backpack.png')
                 },
                 {
-                    "texture": resourcepack.texture.humanoid('./res/equipment/small_backpack_overlay.png')
+                    "texture": resourcepack.texture.equipment('humanoid', './res/equipment/small_backpack_overlay.png')
                 }
             ]
         }
@@ -150,10 +150,10 @@ const equipments = {
                     "dyeable": {
                         "color_when_undyed": -6265536
                     },
-                    "texture": resourcepack.texture.humanoid('./res/equipment/medium_backpack.png')
+                    "texture": resourcepack.texture.equipment('humanoid', './res/equipment/medium_backpack.png')
                 },
                 {
-                    "texture": resourcepack.texture.humanoid('./res/equipment/medium_backpack_overlay.png')
+                    "texture": resourcepack.texture.equipment('humanoid', './res/equipment/medium_backpack_overlay.png')
                 }
             ]
         }
@@ -165,10 +165,10 @@ const equipments = {
                     "dyeable": {
                         "color_when_undyed": -6265536
                     },
-                    "texture": resourcepack.texture.humanoid('./res/equipment/large_backpack.png')
+                    "texture": resourcepack.texture.equipment('humanoid', './res/equipment/large_backpack.png')
                 },
                 {
-                    "texture": resourcepack.texture.humanoid('./res/equipment/large_backpack_overlay.png')
+                    "texture": resourcepack.texture.equipment('humanoid','./res/equipment/large_backpack_overlay.png')
                 }
             ]
         }

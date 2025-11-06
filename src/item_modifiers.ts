@@ -1,6 +1,6 @@
 import { custom_data } from "./custom_data"
 import { assets } from "./assets"
-import { datapack } from '@paul90317/mcfn.ts'
+import { datapack } from 'mcfn.ts'
 
 export const item_modifiers = {
     consume_one: datapack.item_modifier({

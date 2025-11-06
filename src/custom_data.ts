@@ -1,4 +1,4 @@
-import { nbt } from '@paul90317/mcfn.ts'
+import { nbt } from 'mcfn.ts'
 
 export const custom_data = {
     ui: nbt.compound({
