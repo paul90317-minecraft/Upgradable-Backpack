@@ -9,7 +9,8 @@
                 "min_format": 82,
                 "max_format": 88
             }
-        }
+        },
+        "icon": "pack.png"
     },
     "resourcepack": {
         "outdir": "out/resourcepack",
@@ -20,6 +21,7 @@
                 "min_format": 46,
                 "max_format": 69
             }
-        }
+        },
+        "icon": "pack.png"
     }
 }
