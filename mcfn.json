@@ -4,8 +4,10 @@
         "outdir": "out/datapack",
         "mcmeta": {
             "pack": {
-                "description": "Upgradable Backpack v11",
-                "pack_format": 88
+                "description": "Upgradable Backpack by paul90317",
+                "pack_format": 88,
+                "min_format": 82,
+                "max_format": 88
             }
         }
     },
@@ -13,8 +15,10 @@
         "outdir": "out/resourcepack",
         "mcmeta": {
             "pack": {
-                "description": "Upgradable Backpack v11",
-                "pack_format": 69
+                "description": "Upgradable Backpack by paul90317",
+                "pack_format": 69,
+                "min_format": 46,
+                "max_format": 69
             }
         }
     }
